@@ -21,11 +21,11 @@ Well, that's it! I hope you enjoy me in your server!
             n="🇳"
             t="🇹"
             mk="👍"
-            self.bot.add_reaction(message, s)
-            self.bot.add_reaction(message, e)
-            self.bot.add_reaction(message, n)
-            self.bot.add_reaction(message, t)
-            self.bot.add_reaction(message, mk)
+            self.bot.add_reaction(s)
+            self.bot.add_reaction(e)
+            self.bot.add_reaction(n)
+            self.bot.add_reaction(t)
+            self.bot.add_reaction(mk)
 
 def setup(bot):
     n = Joinmsg(bot)
