@@ -10,6 +10,14 @@ class Joinmsg:
 My command affix is `r!!`, for all my  commands do `r!!help`!
 If you need help with anything please don't be afraid to type `r!!support` and join that server!
 Well, that's it! I hope you enjoy me in your server! :white_check_mark:**""")
+        
+    async def on_message(self, message):
+        if message.content.startswith("r!!help"):
+            self.bot.add_reaction(message, emoji="🇸")
+            self.bot.add_reaction(message, emoji="🇪")
+            self.bot.add_reaction(message, emoji="🇳")
+            self.bot.add_reaction(message, emoji="🇹")
+            self.bot.add_reaction(message, emoji="👍")
 
 def setup(bot):
     n = Joinmsg(bot)
