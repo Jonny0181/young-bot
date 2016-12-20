@@ -987,7 +987,7 @@ class Mod:
         data = discord.Embed(
             description=created_at,
             colour=discord.Colour(value=colour))
-        data.add_field(name="Info", value=str("Region {0.region} \a\n {0.id}".format(server)))
+        data.add_field(name="Info", value=str("**Region:** {0.region}\n**Id:** {0.id}".format(server)))
         data.add_field(name="Users", value="**Humans:** {}\n**Bots:** {}".format(total, bots))
         data.add_field(name="Text Channels", value=text_channels)
         data.add_field(name="Voice Channels", value=voice_channels)
@@ -995,7 +995,7 @@ class Mod:
         data.add_field(name="Require 2FA", value=bool(mfa_level))
         data.add_field(name="Default Channel", value=server.default_channel.mention)
         data.add_field(name="Roles", value=len(server.roles))
-        data.set_footer(text="Server ID: " + server.id + " | Owner: {}".format(str(server.owner)))
+        data.set_footer(text="Owner: {}".format(str(server.owner)))
 
         if server.icon_url:
             data.set_author(name=server.name, url=server.icon_url)
