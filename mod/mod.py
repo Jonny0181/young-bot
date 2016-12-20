@@ -995,7 +995,7 @@ class Mod:
         data.add_field(name="Require 2FA", value=bool(mfa_level))
         data.add_field(name="Default Channel", value=server.default_channel.mention)
         data.add_field(name="Roles", value=len(server.roles))
-        data.set_footer(text="Server ID: " + server.id + "Owner: {}".format(str(server.owner)))
+        data.set_footer(text="Server ID: " + server.id + "  Owner: {}".format(str(server.owner)))
 
         if server.icon_url:
             data.set_author(name=server.name, url=server.icon_url)
