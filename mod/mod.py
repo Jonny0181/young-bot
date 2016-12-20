@@ -964,11 +964,6 @@ class Mod:
     async def serverinfo(self, ctx):
         """Shows server's informations"""
         server = ctx.message.server
-        a = len([x.name for x in server.members if x.status == discord.Status.online])
-        b = len([x.name for x in server.members if x.status == discord.Status.idle])
-        c = len([x.name for x in server.members if x.status == discord.Status.dnd])
-        d = len([x.name for x in server.members if x.status == discord.Status.offline])
-        total2= len([x.name for x in server.members])
         mfa_level = server.mfa_level
         vl = server.verification_level
         total = len([e.name for e in server.members if not e.bot])
@@ -994,7 +989,7 @@ class Mod:
             colour=discord.Colour(value=colour))
         data.add_field(name="Info", value=str("Region {0.region} \a\n {0.id}".format(server)))
         data.add_field(name="Default Channel", value=server.default_channel.mention)
-        data.add_field(name="Users", value="**Humans:** {}\n**Bots:** {}\n**Total:** {}".format(total, bots, total2))
+        data.add_field(name="Users", value="**Humans:** {}\n**Bots:** {}".format(total, bots))
         data.add_field(name="Text Channels", value=text_channels)
         data.add_field(name="Voice Channels", value=voice_channels)
         data.add_field(name="Verification Level", value=vl)
