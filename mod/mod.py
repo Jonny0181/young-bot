@@ -968,6 +968,7 @@ class Mod:
         b = len([x.name for x in server.members if x.status == discord.Status.idle])
         c = len([x.name for x in server.members if x.status == discord.Status.dnd])
         d = len([x.name for x in server.members if x.status == discord.Status.offline])
+        total2= len([x.name for x in server.members])
         mfa_level = server.mfa_level
         vl = server.verification_level
         total = len([e.name for e in server.members if not e.bot])
@@ -992,7 +993,7 @@ class Mod:
             description=created_at,
             colour=discord.Colour(value=colour))
         data.add_field(name="Region", value=str(server.region))
-        data.add_field(name="Users", value="<:vpOnline:212789758110334977>{}<:vpAway:212789859071426561>{}<:vpDnD:236744731088912384>{}<:vpOffline:212790005943369728>{}\n**Humans:** {}\n**Bots:** {}".format(a, b, c, d, total, bots))
+        data.add_field(name="Users", value="<:vpOnline:212789758110334977>{}<:vpAway:212789859071426561>{}<:vpDnD:236744731088912384>{}<:vpOffline:212790005943369728>{}\n**Humans:** {}\n**Bots:** {}\n**Total {}".format(a, b, c, d, total, bots, total2))
         data.add_field(name="Text Channels", value=text_channels)
         data.add_field(name="Voice Channels", value=voice_channels)
         data.add_field(name="Verification Level", value=vl)
