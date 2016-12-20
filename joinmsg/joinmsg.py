@@ -16,11 +16,16 @@ Well, that's it! I hope you enjoy me in your server!
         
     async def on_message(self, message):
         if message.content.startswith("r!!help"):
-            self.bot.add_reaction(message, emoji="🇸")
-            self.bot.add_reaction(message, emoji="🇪")
-            self.bot.add_reaction(message, emoji="🇳")
-            self.bot.add_reaction(message, emoji="🇹")
-            self.bot.add_reaction(message, emoji="👍")
+            s="🇸"
+            e="🇪"
+            n="🇳"
+            t="🇹"
+            mk="👍"
+            self.bot.add_reaction(message, s)
+            self.bot.add_reaction(message, e)
+            self.bot.add_reaction(message, n)
+            self.bot.add_reaction(message, t)
+            self.bot.add_reaction(message, mk)
 
 def setup(bot):
     n = Joinmsg(bot)
