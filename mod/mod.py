@@ -994,7 +994,7 @@ class Mod:
             colour=discord.Colour(value=colour))
         data.add_field(name="Info", value=str("Region {0.region} \a\n {0.id}".format(server)))
         data.add_field(name="Default Channel", value=server.default_channel.mention)
-        data.add_field(name="Users", value="<:vpOnline:212789758110334977>{}<:vpAway:212789859071426561>{}<:vpDnD:236744731088912384>{}<:vpOffline:212790005943369728>{}\n**Humans:** {}\n**Bots:** {}\n**Total:** {}".format(a, b, c, d, total, bots, total2))
+        data.add_field(name="Users", value="**Humans:** {}\n**Bots:** {}\n**Total:** {}".format(total, bots, total2))
         data.add_field(name="Text Channels", value=text_channels)
         data.add_field(name="Voice Channels", value=voice_channels)
         data.add_field(name="Verification Level", value=vl)
