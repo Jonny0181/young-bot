@@ -13,19 +13,6 @@ My command affix is r!!, for all my  commands do r!!help!
 Don't be afraid to type r!!support and join that server!
 Well, that's it! I hope you enjoy me in your server!
 ▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬**""")
-        
-    async def on_message(self):
-        if message.content.startswith("r!!help"):
-            s="🇸"
-            e="🇪"
-            n="🇳"
-            t="🇹"
-            mk="👍"
-            self.bot.add_reaction(s)
-            self.bot.add_reaction(e)
-            self.bot.add_reaction(n)
-            self.bot.add_reaction(t)
-            self.bot.add_reaction(mk)
 
 def setup(bot):
     n = Joinmsg(bot)
