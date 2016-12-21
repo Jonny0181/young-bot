@@ -120,7 +120,7 @@ class Mod:
         await self.bot.say(embed=embed)
         
     @commands.command(pass_context=True)
-    async def mods(self, ctx):
+    async def admins(self, ctx):
         """Show's mods in the server."""
         colour = "".join([random.choice('0123456789ABCDEF') for x in range(6)])
         colour = int(colour, 16)
