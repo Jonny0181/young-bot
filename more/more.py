@@ -720,7 +720,7 @@ class More:
     @commands.command(pass_context=True)
     async def servers(self, ctx):
         """Shows how many server Brooklyn is in."""
-        await self.bot.say(ctx.message.author.mention+"**, Brooklyn Radio is currently on {} servers! :confetti_ball:**".format(len(self.bot.servers)))
+        await self.bot.say(ctx.message.author.mention+"**, Brooklyn is currently on {} servers! :confetti_ball:**".format(len(self.bot.servers)))
 
 def check_folders():
     if not os.path.exists("data/weather"):
