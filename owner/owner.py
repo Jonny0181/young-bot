@@ -677,6 +677,18 @@ class Owner:
             await self.bot.say("I'm unable to deliver your message. Sorry.")
         else:
             await self.bot.say("Your message has been sent.")
+	
+
+    @commands.command(hidden=True)
+    async def version(self):
+        """Shows Red's current version"""
+        response = self.bot.loop.run_in_executor(None, self._get_version)
+        result = await asyncio.wait_for(response, timeout=10)
+        try:
+            await self.bot.say(embed=result)
+        except discord.HTTPException:
+            await self.bot.say("I need the `Embed links` permission "
+                               "to send this")
 
     @commands.command(hidden=True)
     async def uptime(self):
