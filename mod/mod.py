@@ -91,10 +91,10 @@ class Mod:
         colour = "".join([random.choice('0123456789ABCDEF') for x in range(6)])
         colour = int(colour, 16)
         server = ctx.message.server
-        one = [e.name for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.online]
-        two = [e.name for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.idle]
-        three = [e.name for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.dnd]
-        four = [e.name for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.offline]
+        one = [e.mention for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.online]
+        two = [e.mention for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.idle]
+        three = [e.mention for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.dnd]
+        four = [e.mention for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.offline]
         embed = discord.Embed(description="Listing mods for this server.", colour=discord.Colour(value=colour))
         if one:
             embed.add_field(name="Online", value=":green_heart: {0}".format((" \n:green_heart: ".join(one)).replace("`", "")), inline=False)
