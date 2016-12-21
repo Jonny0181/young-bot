@@ -763,7 +763,7 @@ class Owner:
         ncommits = os.popen(r'git rev-list --count HEAD').read()
 
         lines = commits.read().split('\n')
-        embed = discord.Embed(title="Updates of " + repo_name,
+        embed = discord.Embed(title="Updates of Brooklyn",
                               description="Last three updates",
                               colour=discord.Colour.red(),
                               url=url)
