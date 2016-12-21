@@ -46,25 +46,25 @@ class Mod:
 
     def __init__(self, bot):
         self.bot = bot
-        self.whitelist_list = dataIO.load_json("data\\mod\\whitelist.json")
-        self.blacklist_list = dataIO.load_json("data\\mod\\blacklist.json")
-        self.ignore_list = dataIO.load_json("data\\mod\\ignorelist.json")
-        self.filter = dataIO.load_json("data\\mod\\filter.json")
-        self.past_names = dataIO.load_json("data\\mod\\past_names.json")
-        self.past_nicknames = dataIO.load_json("data\\mod\\past_nicknames.json")
-        settings = dataIO.load_json("data\\mod\\settings.json")
+        self.whitelist_list = dataIO.load_json("data/mod/whitelist.json")
+        self.blacklist_list = dataIO.load_json("data/mod/blacklist.json")
+        self.ignore_list = dataIO.load_json("data/mod/ignorelist.json")
+        self.filter = dataIO.load_json("data/mod/filter.json")
+        self.past_names = dataIO.load_json("data/mod/past_names.json")
+        self.past_nicknames = dataIO.load_json("data/mod/past_nicknames.json")
+        settings = dataIO.load_json("data/mod/settings.json")
         self.settings = defaultdict(lambda: default_settings.copy(), settings)
         self.cache = defaultdict(lambda: deque(maxlen=3))
-        self.cases = dataIO.load_json("data\\mod\\modlog.json")
+        self.cases = dataIO.load_json("data/mod/modlog.json")
         self.last_case = defaultdict(dict)
         self._tmp_banned_cache = []
         perms_cache = dataIO.load_json("data/mod/perms_cache.json")
         self._perms_cache = defaultdict(dict, perms_cache)
-        self.location = 'data\\antilink\\settings.json'
+        self.location = 'data/antilink/settings.json'
         self.json = dataIO.load_json(self.location)
         self.regex = re.compile(r"<?(https?:\/\/)?(www\.)?(discord\.gg|discordapp\.com\/invite)\b([-a-zA-Z0-9/]*)>?")
         self.regex_discordme = re.compile(r"<?(https?:\/\/)?(www\.)?(discord\.me\/)\b([-a-zA-Z0-9/]*)>?")
-        self.location = 'data\punish\settings.json'
+        self.location = 'data/punish/settings.json'
         self.json = dataIO.load_json(self.location)
         self.min = ['m', 'min', 'mins', 'minutes', 'minute']
         self.hour = ['h', 'hour', 'hours']
@@ -84,6 +84,53 @@ class Mod:
             return t * 60 * 60 * 24 + int(time.time())
         else:
             raise Exception('Invalid Unit')
+
+    @commands.command(pass_context=True)
+    async def roles(self, ctx):
+        """States roles from highest to lowest"""
+        colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+        colour = int(colour, 16)
+        list=discord.Embed(description="**Role list for {}.**".format(ctx.message.server.name), colour=discord.Colour(value=colour))
+        list.add_field(name="▬▬▬▬▬▬▬▬▬▬ஜ۩۞۩ஜ▬▬▬▬▬▬▬▬▬▬", value=", ".join([x.name for x in ctx.message.server.role_hierarchy if x.name != "@everyone"]))
+        await self.bot.say(embed=list)
+
+    @commands.command(pass_context=True)
+    async def emotes(self, ctx):
+        """ServerEmote List"""
+        server = ctx.message.server
+        
+        list = [e for e in server.emojis if not e.managed]
+        emoji = ''
+        for emote in list:
+            emoji += "<:{0.name}:{0.id}> ".format(emote)
+        try:
+            await self.bot.say(emoji)
+        except:
+            await self.bot.say("**This server has no facking emotes what is this a ghost town ???**")
+
+    @commands.command(pass_context=True)
+    async def inrole(self, ctx, *, rolename):
+        """Check members in the role totally didn't copy dex's eye emoji"""
+        colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+        colour = int(colour, 16)
+        server = ctx.message.server
+        message = ctx.message
+        channel = ctx.message.channel
+        await self.bot.send_typing(ctx.message.channel)
+        therole = discord.utils.find(lambda r: r.name.lower() == rolename.lower(), ctx.message.server.roles)
+        if therole is not None and len([m for m in server.members if therole in m.roles]) < 50:
+            await asyncio.sleep(1) #taking time to retrieve the names
+            server = ctx.message.server
+            member = discord.Embed(description="**{1} users found in the {0} role.**\n".format(rolename, len([m for m in server.members if therole in m.roles])), colour=discord.Colour(value=colour))
+            member.add_field(name="Users", value="\n".join(m.display_name for m in server.members if therole in m.roles))
+            await self.bot.say(embed=member)
+        elif len([m for m in server.members if therole in m.roles]) > 50:
+            awaiter = await self.bot.say("Getting Member Names")
+            await asyncio.sleep(1)
+            await self.bot.edit_message(awaiter, " :raised_hand: Woah way too many people in **{0}** Role, **{1}** Members found\n".format(rolename,  len([m for m in server.members if therole in m.roles])))
+        else:
+            embed=discord.Embed(description="**Couldn't Find that role (╯°□°）╯︵ ┻━┻**", colour=discord.Colour(value=colour))
+            await self.bot.say(embed=embed)
 
     @commands.command(pass_context=True, no_pm=True)
     @checks.mod_or_permissions(manage_messages=True)
@@ -1372,7 +1419,7 @@ class Mod:
                     names = deque(self.past_names[before.id], maxlen=20)
                     names.append(after.name)
                     self.past_names[before.id] = list(names)
-            dataIO.save_json("data\\mod\\past_names.json", self.past_names)
+            dataIO.save_json("data/mod/past_names.json", self.past_names)
 
         if before.nick != after.nick and after.nick is not None:
             server = before.server
@@ -1386,7 +1433,7 @@ class Mod:
             if after.nick not in nicks:
                 nicks.append(after.nick)
                 self.past_nicknames[server.id][before.id] = list(nicks)
-                dataIO.save_json("data\\mod\\past_nicknames.json",
+                dataIO.save_json("data/mod/past_nicknames.json",
                                  self.past_nicknames)
 
     def are_overwrites_empty(self, overwrites):
@@ -1398,7 +1445,7 @@ class Mod:
 
 
 def check_folders():
-    folders = ("data", "data\\mod\\")
+    folders = ("data", "data/mod/")
     for folder in folders:
         if not os.path.exists(folder):
             print("Creating " + folder + " folder...")
@@ -1421,28 +1468,28 @@ def check_files():
     }
 
     for filename, value in files.items():
-        if not os.path.isfile("data\\mod\\{}".format(filename)):
+        if not os.path.isfile("data/mod/{}".format(filename)):
             print("Creating empty {}".format(filename))
-            dataIO.save_json("data\\mod\\{}".format(filename), value)
+            dataIO.save_json("data/mod/{}".format(filename), value)
 
 def check_folder():
-    if not os.path.exists('data\\antilink'):
-        os.makedirs('data\\antilink')
+    if not os.path.exists('data/antilink'):
+        os.makedirs('data/antilink')
 
 
 def check_file():
-    f = 'data\\antilink\\settings.json'
+    f = 'data/antilinksettings.json'
     if dataIO.is_valid_json(f) is False:
         dataIO.save_json(f, {})
 
 def check_folder():
-    if not os.path.exists('data\\punish'):
-        log.debug('Creating folder: data\\punish')
-        os.makedirs('data\\punish')
+    if not os.path.exists('data/punish'):
+        log.debug('Creating folder: data/punish')
+        os.makedirs('data/punish')
 
 
 def check_file():
-    f = 'data\\punish\\settings.json'
+    f = 'data/punish/settings.json'
     if dataIO.is_valid_json(f) is False:
         log.debug('Creating json: settings.json')
         dataIO.save_json(f, {})
