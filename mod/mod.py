@@ -84,6 +84,40 @@ class Mod:
             return t * 60 * 60 * 24 + int(time.time())
         else:
             raise Exception('Invalid Unit')
+            
+    @commands.command(pass_context=True)
+    async def mods(self, ctx):
+        """Show's mods in the server."""
+        colour = "".join([random.choice('0123456789ABCDEF') for x in range(6)])
+        colour = int(colour, 16)
+        server = ctx.message.server
+        one = [e.name for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.online]
+        two = [e.name for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.idle]
+        three = [e.name for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.dnd]
+        four = [e.name for e in server.members if e.permissions_in(ctx.message.channel).manage_roles and not e.bot and e.status == discord.Status.offline]
+        embed = discord.Embed(description="Listing mods for this server.", colour=discord.Colour(value=colour))
+        if one:
+            embed.add_field(name="Online", value=":green_heart: {0}".format((" \n:green_heart: ".join(one)).replace("`", "")), inline=False)
+        else:
+            embed.add_field(name="Offline", value=":green_heart: None", inline=False)
+        if two:
+            embed.add_field(name="Idle", value=":yellow_heart: {0}".format((" \n:yellow_heart: ".join(two)).replace("`", "")), inline=False)
+        else:
+            embed.add_field(name="Idle", value=":yellow_heart: None", inline=False)
+        if three:
+            embed.add_field(name="Dnd", value=":heart: {0}".format((" \n:heart: ".join(three)).replace("`", "")), inline=False)
+        else:
+            embed.add_field(name="Dnd", value=":heart: None", inline=False)
+        if four:
+            embed.add_field(name="Offline", value=":black_heart: {0}".format((" \n:black_heart: ".join(four)).replace("`", "")), inline=False)
+        else:
+            embed.add_field(name="Offline", value=":black_heart: None", inline=False)
+        if server.icon_url:
+            embed.set_author(name=server.name, url=server.icon_url)
+            embed.set_thumbnail(url=server.icon_url)
+        else:
+            embed.set_author(name=server.name)
+        await self.bot.say(embed=embed)
 
     @commands.command(pass_context=True)
     async def roles(self, ctx):
