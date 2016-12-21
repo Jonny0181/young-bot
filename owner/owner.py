@@ -19,6 +19,8 @@ import aiohttp
 
 log = logging.getLogger("red.owner")
 st = time.time()
+colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+colour = int(colour, 16)
 
 
 class CogNotFoundError(Exception):
@@ -162,23 +164,25 @@ class Owner:
         try:
             self._load_cog(module)
         except CogNotFoundError:
-            em = discord.Embed(description="That module cannot be found.")
+            em = discord.Embed(description="That module cannot be found.", colour=discord.Colour(value=colour))
+            await self.bot.say(embed=em)
         except NoSetupError:
-            em = discord.Embed(description="That module does not have a setup function.")
+            em = discord.Embed(description="That module does not have a setup function.", colour=discord.Colour(value=colour))
+            await self.bot.say(embed=em)
         except CogLoadError as e:
             log.exception(e)
             traceback.print_exc()
             em = discord.Embed(description="That module could not be loaded. Check your"
                                " console or logs for more information.\n\n"
-                               "Error: `{}`".format(e.args[0]))
+                               "Error: `{}`".format(e.args[0]), colour=discord.Colour(value=colour))
+            await self.bot.say(embed=em)
         else:
             set_cog(module, True)
             await self.disable_commands()
-            em = discord.Embed(description="Module reloaded.")
-
+            em = discord.Embed(description="Module reloaded.", colour=discord.Colour(value=colour))
             await self.bot.say(embed=em)
 
-    @commands.command(name="cogs", hidden=True)
+    @commands.command(name="modules", hidden=True)
     @checks.is_owner()
     async def _show_cogs(self):
         """Shows loaded/unloaded cogs"""
@@ -193,16 +197,10 @@ class Owner:
 
         if not unloaded:
             unloaded = ["None"]
-
-        msg = ("+ Loaded\n"
-               "{}\n\n"
-               "- Unloaded\n"
-               "{}"
-               "".format(", ".join(sorted(loaded)),
-                         ", ".join(sorted(unloaded)))
-               )
-        for page in pagify(msg, [" "], shorten_by=16):
-            await self.bot.say(box(page.lstrip(" "), lang="diff"))
+        msg=discord.Embed(description="**Showing modules for Brooklyn.**", colour=discord.Colour(value=colour))
+        msg.add_field(name="Loaded", value="{}".format(", ".join(sorted(loaded))))
+        msg.add_field(name="Unloaded", value="{}".format(", ".join(sorted(unloaded))))
+        await self.bot.say(embed=msg)
 
     @commands.command(pass_context=True, hidden=True)
     @checks.is_owner()
