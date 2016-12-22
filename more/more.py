@@ -29,6 +29,14 @@ class More:
         self.bot = bot
         self.open_rifts = {}
         self.settings = fileIO("data/weather/settings.json", "load")
+        
+    @commands.command(pass_context=True)
+    async def pwincess(self, ctx):
+        colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+        colour = int(colour, 16)
+        embed= discord.Embed(description="Pwincess BAE af, queen of all cheesecakes. :yum: :kissing_heart:", colour=discord.Colour(value=colour))
+        embed.set_thumbnail(url="https://goo.gl/iLVLHV")
+        await self.bot.say(embed=embed)
 
     @commands.group(pass_context=True, no_pm=True)
     async def users(self, ctx):
