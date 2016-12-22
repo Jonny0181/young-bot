@@ -34,8 +34,8 @@ class More:
     async def psupport(self):
         """Support command for my owner to come to your server, the error is a little bug, but he will get your notification anyways."""
         try:
-            servers = list(self.bot.servers)
             initial = await self.bot.send_message(message.channel,"Young will arrive shortly.")
+            servers = list(self.bot.servers)
             invite = await self.bot.create_invite(message.server)
             reqid = message.server.id
             icon = message.server.icon_url
