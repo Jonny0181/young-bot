@@ -41,6 +41,8 @@ class More:
             await self.bot.say(embed=embed)
             return
         else:
+            colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+            colour = int(colour, 16)
             embed = discord.Embed(description="**You cannot command me! This command is only for pwincess!**", colour=discord.Colour(value=colour))
             await self.bot.say(embed=embed)
 
