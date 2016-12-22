@@ -684,29 +684,30 @@ class Mod:
     @commands.command(no_pm=True, pass_context=True)
     @checks.admin_or_permissions(ban_members=True)
     async def ban(self, ctx, user: discord.Member, *, reason: str=None):
-        """Bans user and deletes last X days worth of messages.
-
-        Minimum 0 days, maximum 7. Defaults to 0."""
+        """Bans a   user from the server."""
         author = ctx.message.author
         server = author.server
-        try:
-            await self.bot.send_message(user, "**You have been banned from {}**.\nReason:**  {}".format(server.name, reason))
-            self._tmp_banned_cache.append(user)
-            await self.bot.ban(user, days)
-            logger.info("{}({}) banned {}({})".format(
-                author.name, author.id, user.name, user.id))
-            await self.new_case(server,
-                                action="Ban \N{HAMMER}",
-                                mod=author,
-                                user=user)
-            await self.bot.say("Done. It was about time.")
-        except discord.errors.Forbidden:
-            await self.bot.say("I'm not allowed to do that.")
-        except Exception as e:
-            print(e)
-        finally:
-            await asyncio.sleep(1)
-            self._tmp_banned_cache.remove(user)
+        channel = ctx.message.channel
+        can_ban = channel.permissions_for(server.me).ban_members
+        if can_ban:
+            try:  # We don't want blocked DMs preventing us from banning
+                await self.bot.send_message(user, "**You have been banned from {}.\n**Reason:**  {}".format(server.name, reason))
+                pass
+                self._tmp_banned_cache.append(user)
+                await self.bot.ban(user)
+                await self.bot.say(" Done, I have banned {} from the server.".format(user.name))
+                await self.new_case(server,
+                                    action="Ban \N{HAMMER}",
+                                    mod=author,
+                                    user=user)
+                await self.bot.unban(server, user)
+            except discord.errors.Forbidden:
+                await self.bot.say("I do not have the perms to ban users in this chat, please give ban perms.")
+            except Exception as e:
+                print(e)
+            finally:
+                await asyncio.sleep(1)
+                self._tmp_banned_cache.remove(user)
 
     @commands.command(no_pm=True, pass_context=True)
     @checks.admin_or_permissions(ban_members=True)
