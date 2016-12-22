@@ -41,7 +41,7 @@ class More:
             await self.bot.say(embed=embed)
             return
         else:
-            embed = (description="**You cannot command me! This command is only for pwincess!**", colour=discord.Colour(value=colour))
+            embed = discord.Embed(description="**You cannot command me! This command is only for pwincess!**", colour=discord.Colour(value=colour))
             await self.bot.say(embed=embed)
 
     @commands.group(pass_context=True, no_pm=True)
