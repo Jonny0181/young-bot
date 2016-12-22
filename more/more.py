@@ -32,6 +32,7 @@ class More:
         
     @commands.command(pass_context=True)
     async def pwincess(self, ctx):
+        """I only listen to my owner or pwincess!"""
         user = ctx.message.author
         if user.id == "105899177401180160" or "146040787891781632":
             colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
