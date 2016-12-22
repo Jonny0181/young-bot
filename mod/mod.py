@@ -667,7 +667,7 @@ class Mod:
         author = ctx.message.author
         server = author.server
         try:
-            await self.bot.send_message(user, "**You have been kicked from {}.\n**Reason:**  {}".format(server.name, reason))
+            await self.bot.send_message(user, "**You have been kicked from {}.**\n**Reason:**  {}".format(server.name, reason))
             await self.bot.kick(user)
             logger.info("{}({}) kicked {}({})".format(
                 author.name, author.id, user.name, user.id))
@@ -675,9 +675,9 @@ class Mod:
                                 action="Kick \N{WOMANS BOOTS}",
                                 mod=author,
                                 user=user)
-            await self.bot.say("Done. That felt good.")
+            await self.bot.say("Done, I have kicked {} from the server.".format(user.name))
         except discord.errors.Forbidden:
-            await self.bot.say("I'm not allowed to do that.")
+            await self.bot.say("I do not have the perms to kick users in this chat, please give kick perms.")
         except Exception as e:
             print(e)
 
@@ -695,7 +695,7 @@ class Mod:
                 pass
                 self._tmp_banned_cache.append(user)
                 await self.bot.ban(user)
-                await self.bot.say(" Done, I have banned {} from the server.".format(user.name))
+                await self.bot.say("Done, I have banned {} from the server.".format(user.name))
                 await self.new_case(server,
                                     action="Ban \N{HAMMER}",
                                     mod=author,
