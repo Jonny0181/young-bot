@@ -30,38 +30,6 @@ class More:
         self.open_rifts = {}
         self.settings = fileIO("data/weather/settings.json", "load")
         
-    @commands.command()
-    async def psupport(self):
-        """Support command for my owner to come to your server, the error is a little bug, but he will get your notification anyways."""
-        try:
-            initial = await self.bot.send_message(message.channel,"Young will arrive shortly.")
-            servers = list(self.bot.servers)
-            invite = await self.bot.create_invite(message.server)
-            reqid = message.server.id
-            icon = message.server.icon_url
-            name = message.server.name
-            info = message.content.split('r!!psupport ')[1]
-            for server in self.bot.servers:
-             for channel in server.channels:
-              if channel.id == "261088497543151617":
-                  await self.bot.send_message(channel, "<@146040787891781632>")
-                  data = discord.Embed(
-                      description="New suport request!",colour=0x3498DB)
-                  data.add_field(name="Server", value=str(name))
-                  data.add_field(name="Reason", value=str(info))
-                  data.add_field(name="Invite", value=str(invite))
-                  data.add_field(name="Request ID", value=str(reqid))
-                  data.set_footer(text="Status: Unclaimed")
-
-                  if message.server.icon_url:
-                      data.set_author(name=name, url=icon)
-                      data.set_thumbnail(url=icon)
-                  else:
-                      data.set_author(name=message.server.name)
-                  message = await self.bot.send_message(channel,embed=data)
-        except:
-          await self.bot.edit_message(initial,":x: You must provide a reason! Ex: r!!psupport Brooklyn won't play music.")
-        
     @commands.command(pass_context=True)
     async def pwincess(self, ctx):
         colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
