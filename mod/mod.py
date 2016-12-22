@@ -174,7 +174,7 @@ class Mod:
         try:
             await self.bot.say(emoji)
         except:
-            await self.bot.say("**This server has no facking emotes what is this a ghost town ???**")
+            await self.bot.say("**This server has no fucking emotes??? What is this a ghost town ???**")
 
     @commands.command(pass_context=True)
     async def inrole(self, ctx, *, rolename):
@@ -195,9 +195,9 @@ class Mod:
         elif len([m for m in server.members if therole in m.roles]) > 50:
             awaiter = await self.bot.say("Getting Member Names")
             await asyncio.sleep(1)
-            await self.bot.edit_message(awaiter, " :raised_hand: Woah way too many people in **{0}** Role, **{1}** Members found\n".format(rolename,  len([m for m in server.members if therole in m.roles])))
+            await self.bot.edit_message(awaiter, " :raised_hand: Woah way too many people in **{0}** Role, **{1}** Members found\n".format(rolename,  len([m.mention for m in server.members if therole in m.roles])))
         else:
-            embed=discord.Embed(description="**Couldn't Find that role (╯°□°）╯︵ ┻━┻**", colour=discord.Colour(value=colour))
+            embed=discord.Embed(description="**Role was not found**", colour=discord.Colour(value=colour))
             await self.bot.say(embed=embed)
 
     @commands.command(pass_context=True, no_pm=True)
@@ -662,11 +662,12 @@ class Mod:
 
     @commands.command(no_pm=True, pass_context=True)
     @checks.admin_or_permissions(kick_members=True)
-    async def kick(self, ctx, user: discord.Member):
+    async def kick(self, ctx, user: discord.Member, *, reason: str=None):
         """Kicks user."""
         author = ctx.message.author
         server = author.server
         try:
+            await self.bot.send_message(user, "**You have been kicked from {}.\n**Reason:**  {}".format(server.name, reason))
             await self.bot.kick(user)
             logger.info("{}({}) kicked {}({})".format(
                 author.name, author.id, user.name, user.id))
@@ -682,7 +683,7 @@ class Mod:
 
     @commands.command(no_pm=True, pass_context=True)
     @checks.admin_or_permissions(ban_members=True)
-    async def ban(self, ctx, user: discord.Member, days: int=0):
+    async def ban(self, ctx, user: discord.Member, *, reason: str=None, days: int=0):
         """Bans user and deletes last X days worth of messages.
 
         Minimum 0 days, maximum 7. Defaults to 0."""
@@ -692,6 +693,7 @@ class Mod:
             await self.bot.say("Invalid days. Must be between 0 and 7.")
             return
         try:
+            await self.bot.send_message(user, "**You have been banned from {}**.\nReason:**  {}".format(server.name, reason))
             self._tmp_banned_cache.append(user)
             await self.bot.ban(user, days)
             logger.info("{}({}) banned {}({}), deleting {} days worth of messages".format(
