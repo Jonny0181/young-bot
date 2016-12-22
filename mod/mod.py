@@ -700,7 +700,6 @@ class Mod:
                                     action="Ban \N{HAMMER}",
                                     mod=author,
                                     user=user)
-                await self.bot.unban(server, user)
             except discord.errors.Forbidden:
                 await self.bot.say("I do not have the perms to ban users in this chat, please give ban perms.")
             except Exception as e:
