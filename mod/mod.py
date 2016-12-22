@@ -691,7 +691,7 @@ class Mod:
         can_ban = channel.permissions_for(server.me).ban_members
         if can_ban:
             try:  # We don't want blocked DMs preventing us from banning
-                await self.bot.send_message(user, "**You have been banned from {}.\n**Reason:**  {}".format(server.name, reason))
+                await self.bot.send_message(user, "**You have been banned from {}.**\n**Reason:**  {}".format(server.name, reason))
                 pass
                 self._tmp_banned_cache.append(user)
                 await self.bot.ban(user)
