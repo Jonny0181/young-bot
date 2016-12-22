@@ -33,7 +33,7 @@ class More:
     @commands.command(pass_context=True)
     async def pwincess(self, ctx):
         user = ctx.message.author
-        if user.id == "105899177401180160":
+        if user.id == "105899177401180160" and "146040787891781632":
             colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
             colour = int(colour, 16)
             embed= discord.Embed(description="Pwincess BAE af, queen of all cheesecakes. :yum: :kissing_heart:", colour=discord.Colour(value=colour))
