@@ -1301,7 +1301,7 @@ class Mod:
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
 
-    @editrole.command(aliases=["color"], pass_context=True)
+    @erole.command(aliases=["color"], pass_context=True)
     async def colour(self, ctx, role: discord.Role, value: discord.Colour):
         """Edits a role's colour
         Use double quotes if the role contains spaces.
@@ -1322,7 +1322,7 @@ class Mod:
             print(e)
             await self.bot.say("Something went wrong.")
 
-    @editrole.command(name="name", pass_context=True)
+    @erole.command(name="name", pass_context=True)
     @checks.admin_or_permissions(administrator=True)
     async def edit_role_name(self, ctx, role: discord.Role, name: str):
         """Edits a role's name
