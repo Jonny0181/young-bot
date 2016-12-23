@@ -684,7 +684,7 @@ class Mod:
     @commands.command(no_pm=True, pass_context=True)
     @checks.admin_or_permissions(ban_members=True)
     async def ban(self, ctx, user: discord.Member, *, reason: str=None):
-        """Bans a   user from the server."""
+        """Bans a user from the server."""
         author = ctx.message.author
         server = author.server
         channel = ctx.message.channel
@@ -1250,7 +1250,101 @@ class Mod:
         except:
             log.debug("Role not found for rolename {}".format(rolename))
         return role
+    
+    @commands.command(pass_context = True)
+    @checks.mod_or_permissions(manage_messages=True)
+    async def botclean(self, ctx, limit : int = None):
+        """Removes all bot messages."""
+        if limit is None:
+            limit = 100
+        elif limit > 100:
+            limit = 100
+        deleted = await self.bot.purge_from(ctx.message.channel, limit=limit, before=ctx.message, check= lambda e: e.author.bot)
+        reply = await self.bot.say('**Done, {} where messages deleted.**'.format(len(deleted)))
+        await asyncio.sleep(3)
+        await self.bot.delete_message(reply)
+        
+    @commands.command(pass_context=True, no_pm=True)
+    @checks.mod_or_permissions(manage_roles=True)
+    async def crole(self, ctx, *, rolename: str = None):
+        """Creates a role.
+        When the roles is created it will appear at the bottom of the list."""
+        if rolename is None:
+            await self.bot.say("Please specify a name for the role.")
+            return
+        server = ctx.message.server
+        name = ''.join(rolename)
+        await self.bot.create_role(server, name= '{}'.format(name))
+        message = "**Done, I have created the role {}.** :thumbsup:".format(name)
+        await self.bot.say(message)
+        
+    @commands.command(pass_context=True)
+    async def deleterole(self, ctx, rolename):
+        """Deletes an existing role."""
+        channel = ctx.message.channel
+        server = ctx.message.server
 
+        role = self._role_from_string(server, rolename)
+
+        if role is None:
+            await self.bot.say('**Role was not found.**')
+            return
+
+        await self.bot.delete_role(server,role)
+        message = "**Done, I have deleted the role {}.** :thumbsup:".format(rolename)
+        await self.bot.say(message)
+
+    @commands.group(no_pm=True, pass_context=True)
+    @checks.admin_or_permissions(manage_roles=True)
+    async def editrole(self, ctx):
+        """Edits roles settings"""
+        if ctx.invoked_subcommand is None:
+            await send_cmd_help(ctx)
+
+    @editrole.command(aliases=["color"], pass_context=True)
+    async def colour(self, ctx, role: discord.Role, value: discord.Colour):
+        """Edits a role's colour
+        Use double quotes if the role contains spaces.
+        Colour must be in hexadecimal format.
+        \"http://www.w3schools.com/colors/colors_picker.asp\"
+        Examples:
+        r!!editrole colour \"The Transistor\" #ff0000
+        r!!editrole colour Test #ff9900"""
+        author = ctx.message.author
+        try:
+            await self.bot.edit_role(ctx.message.server, role, color=value)
+            logger.info("{}({}) changed the colour of role '{}'".format(
+                author.name, author.id, role.name))
+            await self.bot.say("Done.")
+        except discord.Forbidden:
+            await self.bot.say("I need permissions to manage roles first.")
+        except Exception as e:
+            print(e)
+            await self.bot.say("Something went wrong.")
+
+    @editrole.command(name="name", pass_context=True)
+    @checks.admin_or_permissions(administrator=True)
+    async def edit_role_name(self, ctx, role: discord.Role, name: str):
+        """Edits a role's name
+        Use double quotes if the role or the name contain spaces.
+        Examples:
+        r!!editrole name \"The Transistor\" Test"""
+        if name == "":
+            await self.bot.say("Name cannot be empty.")
+            return
+        try:
+            author = ctx.message.author
+            old_name = role.name  # probably not necessary?
+            await self.bot.edit_role(ctx.message.server, role, name=name)
+            logger.info("{}({}) changed the name of role '{}' to '{}'".format(
+                author.name, author.id, old_name, name))
+            await self.bot.say("Done.")
+        except discord.Forbidden:
+            await self.bot.say("I need permissions to manage roles first.")
+        except Exception as e:
+            print(e)
+            await self.bot.say("Something went wrong.")
+        
     async def mass_purge(self, messages):
         while messages:
             if len(messages) > 1:
