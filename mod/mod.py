@@ -1279,7 +1279,7 @@ class Mod:
         await self.bot.say(message)
         
     @commands.command(pass_context=True)
-    async def deleterole(self, ctx, rolename):
+    async def drole(self, ctx, rolename):
         """Deletes an existing role."""
         channel = ctx.message.channel
         server = ctx.message.server
@@ -1296,7 +1296,7 @@ class Mod:
 
     @commands.group(no_pm=True, pass_context=True)
     @checks.admin_or_permissions(manage_roles=True)
-    async def editrole(self, ctx):
+    async def erole(self, ctx):
         """Edits roles settings"""
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
@@ -1315,7 +1315,7 @@ class Mod:
             await self.bot.edit_role(ctx.message.server, role, color=value)
             logger.info("{}({}) changed the colour of role '{}'".format(
                 author.name, author.id, role.name))
-            await self.bot.say("Done.")
+            await self.bot.say("Done, there you go fam.")
         except discord.Forbidden:
             await self.bot.say("I need permissions to manage roles first.")
         except Exception as e:
@@ -1338,7 +1338,7 @@ class Mod:
             await self.bot.edit_role(ctx.message.server, role, name=name)
             logger.info("{}({}) changed the name of role '{}' to '{}'".format(
                 author.name, author.id, old_name, name))
-            await self.bot.say("Done.")
+            await self.bot.say("Done, there you go fam.")
         except discord.Forbidden:
             await self.bot.say("I need permissions to manage roles first.")
         except Exception as e:
