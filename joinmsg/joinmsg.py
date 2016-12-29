@@ -6,12 +6,11 @@ class Joinmsg:
         self.bot = bot
 
     async def on_server_join(self, server):
-        await self.bot.send_message(server, """**
- Hi! My name is Brooklyn! 
+        await self.bot.send_message(server, """**Hi! My name is Brooklyn! :wave: 
 I was made to fill your discord with music and joy!
-My command affix is r!!, for all my  commands do r!!help!
-Don't be afraid to type r!!support and join that server!
-Well, that's it! I hope you enjoy me in your server!**""")
+My command affix is `r!!`, for all my  commands do `r!!help`!
+Don't be afraid to type `r!!support` and join that server!
+Well, that's it! I hope you enjoy me in your server!***""")
 
 def setup(bot):
     n = Joinmsg(bot)
