@@ -13,7 +13,7 @@ class Testing:
         msg = "\n".format(("\n".join(e)))
         something = pagify(msg, ["\n"])
         for page in something:
-            bot.say(page)
+            self.bot.say(page)
 
 def setup(bot):
     n = Testing(bot)
