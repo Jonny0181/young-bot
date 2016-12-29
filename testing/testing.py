@@ -9,7 +9,7 @@ class Testing:
     @commands.command()
     async def listservers(self):
         """List servers the bot is in."""
-        e = [e.name for e in bot.servers]
+        e = [e.name for e in self.bot.servers]
         msg = "\n".format(("\n".join(e)))
         something = pagify(msg, ["\n"])
         for page in something:
