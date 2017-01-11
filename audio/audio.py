@@ -1481,7 +1481,7 @@ class Audio:
 
         await self.bot.say("Queued.")
 
-    @playlist2.command(pass_context=True, no_pm=True, name="remove")
+    @mixtape.command(pass_context=True, no_pm=True, name="remove")
     async def playlist_remove(self, ctx, name):
         """Deletes a saved mixtape."""
         server = ctx.message.server
