@@ -1801,7 +1801,7 @@ class Audio:
             msg.add_field(name="Views", value="{}".format(song.view_count))
             msg.add_field(name="Duration", value="{}".format(dur))
             msg.set_footer(text="Link: <{}>".format(song.webpage_url))
-            await self.bot.say(embed=qmsg)
+            await self.bot.say(embed=msg)
         else:
             await self.bot.say("Darude - Sandstorm.")
 
