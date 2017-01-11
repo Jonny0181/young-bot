@@ -1799,7 +1799,7 @@ class Audio:
             msg.add_field(name="Uploader", value="{}".format(song.uploader))
             msg.add_field(name="Views", value="{}".format(song.view_count))
             msg.add_field(name="Duration", value="{}".format(dur))
-            msg.add_field(text="Link: {}".format(song.webpage_url))
+            msg.add_field(name="Link", value="{}".format(song.webpage_url))
             msg.set_image(url=song.thumbnail)
             await self.bot.say(embed=msg)
         else:
