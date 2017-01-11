@@ -1798,7 +1798,7 @@ class Audio:
             msg.add_field(name="Title", value="{}".format(song.title))
             msg.add_field(name="Author", value="{}".format(song.creator))
             msg.add_field(name="Uploader", value="{}".format(song.uploader))
-            msg.add_field(name="Views", value="{}".format(song.views_count))
+            msg.add_field(name="Views", value="{}".format(song.view_count))
             msg.add_field(name="Duration", value="{}".format(dur))
             msg.set_footer(text="Link: <{}>".format(song.webpage_url))
             await self.bot.say(embed=qmsg)
