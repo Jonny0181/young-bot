@@ -1626,7 +1626,7 @@ class Audio:
                 song_info.append("{}. {.webpage_url}".format(num, song))
         msg.add_field(name="Next up", value="\n".join(song_info))
 
-        await self.bot.say(msg)
+        await self.bot.say(embed=msg)
 
     @commands.group(pass_context=True, no_pm=True, hidden=True)
     async def repeat(self, ctx):
@@ -1794,14 +1794,14 @@ class Audio:
                     dur = "{0}:{1:0>2}".format(m, s)
             else:
                 dur = None
-            msg = ("\n**Title:** {}\n**Author:** {}\n**Uploader:** {}\n"
-                   "**Views:** {}\n**Duration:** {}\n\n<{}>".format(
-                       song.title, song.creator, song.uploader,
-                       song.view_count, dur, song.webpage_url))
-            await self.bot.say(msg.replace("**Author:** None\n", "")
-                                  .replace("**Views:** None\n", "")
-                                  .replace("**Uploader:** None\n", "")
-                                  .replace("**Duration:** None\n", ""))
+            msg = discord.Embed(description="Song information.", colour=discord.Colour.blue())
+            msg.add_field(name="Title", value="{}".format(song.title))
+            msg.add_field(name="Author", value="{}".format(song.creator))
+            msg.add_field(name="Uploader", value="{}".format(song.uploader))
+            msg.add_field(name="Views", value="{}".format(song.views_count))
+            msg.add_field(name="Duration", value="{}".format(dur))
+            msg.set_footer(text="Link: <{}>".format(song.webpage_url))
+            await self.bot.say(embed=qmsg)
         else:
             await self.bot.say("Darude - Sandstorm.")
 
