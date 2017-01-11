@@ -1358,19 +1358,19 @@ class Audio:
         else:
             await self.bot.say("Not playing anything on this server.")
 
-    @commands.group(pass_context=True, no_pm=True, hidden=True)
-    async def playlist2(self, ctx):
-        """Playlist management/control."""
+    @commands.group(pass_context=True, no_pm=True)
+    async def mixtape(self, ctx):
+        """Mixtape creating and editing."""
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
 
-    @playlist2.command(pass_context=True, no_pm=True, name="create")
+    @mixtape.command(pass_context=True, no_pm=True, name="create")
     async def playlist_create(self, ctx, name):
-        """Creates an empty playlist"""
+        """Creates an empty mixtape"""
         server = ctx.message.server
         author = ctx.message.author
         if not self._valid_playlist_name(name) or len(name) > 25:
-            await self.bot.say("That playlist name is invalid. It must only"
+            await self.bot.say("That mixtape name is invalid. It must only"
                                " contain alpha-numeric characters or _.")
             return
 
@@ -1383,25 +1383,25 @@ class Audio:
         playlist.server = server
 
         self._save_playlist(server, name, playlist)
-        await self.bot.say("Empty playlist '{}' saved.".format(name))
+        await self.bot.say("Empty mixtape '{}' saved. :writing_hand::skin-tone-3:".format(name))
 
-    @playlist2.command(pass_context=True, no_pm=True, name="add")
+    @mixtape.command(pass_context=True, no_pm=True, name="add")
     async def playlist_add(self, ctx, name, url):
-        """Add a YouTube or Soundcloud playlist."""
+        """Add a YouTube or Soundcloud mixtape."""
         server = ctx.message.server
         author = ctx.message.author
         if not self._valid_playlist_name(name) or len(name) > 25:
-            await self.bot.say("That playlist name is invalid. It must only"
+            await self.bot.say("That mixtape name is invalid. It must only"
                                " contain alpha-numeric characters or _.")
             return
 
         if self._valid_playable_url(url):
             try:
                 await self.bot.say("Enumerating song list... This could take"
-                                   " a few moments.")
+                                   " a few moments. :writing_hand::skin-tone-3:")
                 songlist = await self._parse_playlist(url)
             except InvalidPlaylist:
-                await self.bot.say("That playlist URL is invalid.")
+                await self.bot.say("That mixtape URL is invalid.")
                 return
 
             playlist = self._make_playlist(author, url, songlist)
@@ -1411,7 +1411,7 @@ class Audio:
             playlist.server = server
 
             self._save_playlist(server, name, playlist)
-            await self.bot.say("Playlist '{}' saved. Tracks: {}".format(
+            await self.bot.say("Mixtape '{}' saved. Tracks: {}. :writing_hand::skin-tone-3:".format(
                 name, len(songlist)))
         else:
             await self.bot.say("That URL is not a valid Soundcloud or YouTube"
@@ -1419,46 +1419,46 @@ class Audio:
                                " please let us know and we'll get it"
                                " fixed ASAP.")
 
-    @playlist2.command(pass_context=True, no_pm=True, name="append")
+    @mixtape.command(pass_context=True, no_pm=True, name="append")
     async def playlist_append(self, ctx, name, url):
-        """Appends to a playlist."""
+        """Appends to a mixtape."""
         author = ctx.message.author
         server = ctx.message.server
         if name not in self._list_playlists(server):
-            await self.bot.say("There is no playlist with that name.")
+            await self.bot.say("There is no mixtapes with that name.")
             return
         playlist = self._load_playlist(
             server, name, local=self._playlist_exists_local(server, name))
         try:
             playlist.append_song(author, url)
         except UnauthorizedSave:
-            await self.bot.say("You're not the author of that playlist.")
+            await self.bot.say("You're not the author of that mixtape.")
         except InvalidURL:
             await self.bot.say("Invalid link.")
         else:
-            await self.bot.say("Done.")
+            await self.bot.say("Done. :writing_hand::skin-tone-3:")
 
-    @playlist2.command(pass_context=True, no_pm=True, name="extend")
+    @mixtape.command(pass_context=True, no_pm=True, name="extend")
     async def playlist_extend(self, ctx, playlist_url_or_name):
-        """Extends a playlist with a playlist link"""
+        """Extends a mixtape with a mixtape link"""
         # Need better wording ^
         await self.bot.say("Not implemented yet.")
 
-    @playlist2.command(pass_context=True, no_pm=True, name="list")
+    @mixtape.command(pass_context=True, no_pm=True, name="list")
     async def playlist_list(self, ctx):
         """Lists all available playlists"""
         files = self._list_playlists(ctx.message.server)
         if files:
-            msg = "```xl\n"
+            msg = "```css\n["
             for f in files:
                 msg += "{}, ".format(f)
             msg = msg.strip(", ")
-            msg += "```"
-            await self.bot.say("Available playlists:\n{}".format(msg))
+            msg += "]```"
+            await self.bot.say("Available mixtapes:\n{}".format(msg))
         else:
             await self.bot.say("There are no playlists.")
 
-    @playlist2.command(pass_context=True, no_pm=True, name="queue")
+    @mixtape.command(pass_context=True, no_pm=True, name="queue")
     async def playlist_queue(self, ctx, url):
         """Adds a song to the playlist loop.
 
@@ -1483,7 +1483,7 @@ class Audio:
 
     @playlist2.command(pass_context=True, no_pm=True, name="remove")
     async def playlist_remove(self, ctx, name):
-        """Deletes a saved playlist."""
+        """Deletes a saved mixtape."""
         server = ctx.message.server
 
         if not self._valid_playlist_name(name):
@@ -1493,13 +1493,13 @@ class Audio:
 
         if self._playlist_exists(server, name):
             self._delete_playlist(server, name)
-            await self.bot.say("Playlist deleted.")
+            await self.bot.say("Mixtape deleted. :writing_hand::skin-tone-3:")
         else:
-            await self.bot.say("Playlist not found.")
+            await self.bot.say("Mixtape not found.")
 
-    @playlist2.command(pass_context=True, no_pm=True, name="start")
+    @mixtape.command(pass_context=True, no_pm=True, name="start")
     async def playlist_start(self, ctx, name):
-        """Plays a playlist."""
+        """Plays a mixtape."""
         server = ctx.message.server
         author = ctx.message.author
         voice_channel = ctx.message.author.voice_channel
@@ -1537,13 +1537,13 @@ class Audio:
                 shuffle(playlist.playlist)
 
             self._play_playlist(server, playlist)
-            await self.bot.say("Playlist queued.")
+            await self.bot.say("Mixtape queued.")
         else:
-            await self.bot.say("That playlist does not exist.")
+            await self.bot.say("That mixtape does not exist.")
 
-    @playlist2.command(pass_context=True, no_pm=True, name="mix")
+    @mixtape.command(pass_context=True, no_pm=True, name="mix")
     async def playlist_start_mix(self, ctx, name):
-        """Plays and mixes a playlist."""
+        """Plays and mixes a mixtape."""
         await self.playlist_start.callback(self, ctx, name)
 
     @commands.command(pass_context=True, no_pm=True, name="playlist")
@@ -1595,17 +1595,17 @@ class Audio:
             await self.bot.say("Nothing queued on this server.")
             return
 
-        msg = ""
+        msg = discord.Embed(description="{}, here is the current playlist!".format(ctx.message.author.display_name), colour=discord.Colour.blue())
 
         now_playing = self._get_queue_nowplaying(server)
 
         if now_playing is not None:
-            msg += "\n***Now playing:***\n{}\n".format(now_playing.title)
+            msg.add_field(name="Now playing", value="{}".format(now_playing.title))
 
         queue_url_list = self._get_queue(server, 5)
         tempqueue_url_list = self._get_queue_tempqueue(server, 5)
 
-        await self.bot.say("Gathering information...")
+        await self.bot.say("Writing information down......:writing_hand::skin-tone-3:")
 
         queue_song_list = await self._download_all(queue_url_list)
         tempqueue_song_list = await self._download_all(tempqueue_url_list)
@@ -1624,7 +1624,7 @@ class Audio:
                 song_info.append("{}. {.title}".format(num, song))
             except AttributeError:
                 song_info.append("{}. {.webpage_url}".format(num, song))
-        msg += "\n***Next up:***\n" + "\n".join(song_info)
+        msg.add_field(name="Next up", value="\n".join(song_info))
 
         await self.bot.say(msg)
 
