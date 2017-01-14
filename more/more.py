@@ -50,7 +50,10 @@ class More:
         channel = ctx.message.channel
         await self.bot.send_typing(ctx.message.channel)
         role = self._role_from_string(server, rolename)
-        data = discord.Embed(description="Information on {}.".format(role.name), colour=role.colour)
+        data = discord.Embed(description="Role Information", colour=role.colour)
+        data.add_field(name="Name", value=role.name)
+        data.add_field(name="Colour", value=role.colour)
+        data.add_field(name="Permissions", value=role.permissions.value)
         await self.bot.say(embed=data)
         if role is None:
             await self.bot.say('That role cannot be found.')
