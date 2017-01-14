@@ -31,10 +31,18 @@ class More:
         self.settings = fileIO("data/weather/settings.json", "load")
         
     @commands.command(pass_context=True)
-    async def roleinfo(self, ctx, *, rolename):
-        """Show information on a role."""
+    async def rid(self, ctx, rolename):
+        """Shows information on a role."""
+        channel = ctx.message.channel
+        server = ctx.message.server
+        channel = ctx.message.channel
+        await self.bot.send_typing(ctx.message.channel)
+        role = self._role_from_string(server, rolename)
         data = discord.Embed(description="Information on {}.".format(role.name), colour=role.colour)
         await self.bot.say(embed=data)
+        if role is None:
+            await self.bot.say('That role cannot be found.')
+            return
         
     @commands.command(pass_context=True)
     async def pwincess(self, ctx):
