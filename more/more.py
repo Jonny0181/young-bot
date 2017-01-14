@@ -30,8 +30,20 @@ class More:
         self.open_rifts = {}
         self.settings = fileIO("data/weather/settings.json", "load")
         
+    def _role_from_string(self, server, rolename, roles=None):
+        if roles is None:
+            roles = server.roles
+        role = discord.utils.find(lambda r: r.name.lower() == rolename.lower(),
+                                  roles)
+        try:
+            log.debug("Role {} found from rolename {}".format(
+                role.name, rolename))
+        except:
+            log.debug("Role not found for rolename {}".format(rolename))
+        return role
+        
     @commands.command(pass_context=True)
-    async def rid(self, ctx, rolename):
+    async def roleinfo(self, ctx, rolename):
         """Shows information on a role."""
         channel = ctx.message.channel
         server = ctx.message.server
