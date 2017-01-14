@@ -31,6 +31,12 @@ class More:
         self.settings = fileIO("data/weather/settings.json", "load")
         
     @commands.command(pass_context=True)
+    async def roleinfo(self, ctx, *, rolename):
+        """Show information on a role."""
+        data = discord.Embed(description="Information on {}.".format(role.name), colour=role.colour)
+        await self.bot.say(embed=data)
+        
+    @commands.command(pass_context=True)
     async def pwincess(self, ctx):
         """I only listen to my owner or pwincess!"""
         user = ctx.message.author
