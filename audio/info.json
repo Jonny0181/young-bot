@@ -4,5 +4,5 @@
     "DESCRIPTION" : "Allows for music to be played through your bot in a voice channel.",
     "DISABLED" : false,
     "NAME" : "Audio",
-    "INSTALL_MSG" : "This a new and improved Audio cog! It will not work with the one that comes with RedBot by default! Play command supports playlist links."
+    "INSTALL_MSG" : "This a new and improved Audio cog! It will not work with the one that comes with RedBot by default!\n\n**Some things that have been changed**\n`1)` Play command supports playlist links.\n`2)` Embeded command messages.\n`3)` Updating now playing message when the next song plays.\n\nMore will be added and changed down the road so stay tuned for updates."
 }
