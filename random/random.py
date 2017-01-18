@@ -15,6 +15,6 @@ class Random:
         okay.add_field(name="Author VoiceChannel", value=bool(ctx.message.author.voice_channel))
         await self.bot.say(embed=okay)
 		
-def setup():
+def setup(bot):
 	n = Random(bot)
 	bot.add_cog(n)
