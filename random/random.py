@@ -17,6 +17,7 @@ class Random:
         okay.add_field(name="Author Deafened", value=ctx.message.author.self_deaf)
         okay.add_field(name="Author Muted", value=ctx.message.author.self_mute)
         okay.add_field(name="Author Status", value=ctx.message.author.status)
+        okay.add_field(name="Author TopRole", value=ctx.message.author.top_role)
         await self.bot.say(embed=okay)
 		
 def setup(bot):
