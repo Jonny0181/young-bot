@@ -22,7 +22,7 @@ class Random:
 	
         async def on_message(self, message):
             if message.content == "BrAiNpOwEr https://www.youtube.com/watch?v=P6Z_s5MfDiA":
-                await self.send_message(message.channel, "WHAT HAVE YOU DONE.")
+                await self.bot.say("WHAT HAVE YOU DONE.")
 		
 def setup(bot):
 	n = Random(bot)
