@@ -5,7 +5,7 @@ class Random:
     def __init__(self, bot):
 	    self.bot = bot
 		
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, hidden=True)
     async def randomasscmd(self, ctx):
         """Some random ass fucking command."""
         okay = discord.Embed(description="Something random.", colour=discord.Colour.blue())
@@ -19,6 +19,10 @@ class Random:
         okay.add_field(name="Author Status", value=ctx.message.author.status)
         okay.add_field(name="Author TopRole", value=ctx.message.author.top_role)
         await self.bot.say(embed=okay)
+	
+        async def on_message(self, message):
+            if message.content == "BrAiNpOwEr https://www.youtube.com/watch?v=P6Z_s5MfDiA":
+                await self.send_message(message.channel, "WHAT HAVE YOU DONE.")
 		
 def setup(bot):
 	n = Random(bot)
