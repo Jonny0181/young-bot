@@ -1,0 +1,8 @@
+{
+    "AUTHOR" : "Young",
+    "SHORT" : "Play music!",
+    "DESCRIPTION" : "Shows your basic information like stats, serverinfo, and more.",
+    "DISABLED" : false,
+    "NAME" : "Audio",
+    "INSTALL_MSG" : "Thank you for installing my cog! This cog will not work with the general cog that comes with red! If you need any help with don't be afaraid to stop by my server!\n\nInvite Link: https://discord.gg/BMqzrKE"
+}
