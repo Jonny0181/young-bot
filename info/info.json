@@ -1,6 +1,6 @@
 {
     "AUTHOR" : "Young",
-    "SHORT" : "Play music!",
+    "SHORT" : "General information.",
     "DESCRIPTION" : "Shows your basic information like stats, serverinfo, and more.",
     "DISABLED" : false,
     "NAME" : "Audio",
