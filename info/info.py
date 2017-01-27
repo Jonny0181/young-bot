@@ -20,11 +20,6 @@ class Info:
             return user.joined_at
 
     @commands.command(pass_context=True)
-    async def support(self, ctx):
-        """Support server."""
-        await self.bot.whisper("Here is my support server! https://discord.gg/fmuvSX9")
-
-    @commands.command(pass_context=True)
     async def stats(self, ctx):
         """Shows stats."""
         text_channels = 0
@@ -62,7 +57,7 @@ class Info:
         await self.bot.say(embed=data)
 
     @commands.command(pass_context=True, no_pm=True)
-    async def serverinfo(self, ctx):
+    async def sinfo(self, ctx):
         """Shows servers informations"""
         server = ctx.message.server
         mfa_level = server.mfa_level
@@ -114,7 +109,7 @@ class Info:
             await self.bot.say("Your server perm's are fucked. I need `embed links`.")
 
     @commands.command(pass_context=True, no_pm=True)
-    async def userinfo(self, ctx, *, user: discord.Member=None):
+    async def uinfo(self, ctx, *, user: discord.Member=None):
         """Shows userss informations"""
         author = ctx.message.author
         server = ctx.message.server
@@ -181,7 +176,7 @@ class Info:
             await self.bot.say("Your server perm's are fucked. I need `embed links`.")
 
     @commands.command(pass_context=True)
-    async def serveremotes(self, ctx):
+    async def semotes(self, ctx):
         """ServerEmote List"""
         server = ctx.message.server
 
@@ -217,20 +212,6 @@ class Info:
         else:
             embed=discord.Embed(description="**Role was not found**", colour=discord.Colour(value=colour))
             await self.bot.say(embed=embed)
-
-    @commands.command(pass_context=True)
-    async def emotes(self, ctx):
-        """ServerEmote List"""
-        server = ctx.message.server
-
-        list = [e for e in server.emojis if not e.managed]
-        emoji = ''
-        for emote in list:
-            emoji += "<:{0.name}:{0.id}> ".format(emote)
-        try:
-            await self.bot.say(emoji)
-        except:
-            await self.bot.say("Server has no emotes. :shrug:")
 
     @commands.command(pass_context=True, no_pm=True)
     async def avatar(self, ctx, *, user: discord.Member=None):
@@ -308,7 +289,7 @@ class Info:
         await self.bot.say(embed=embed)
 
     @commands.command(pass_context=True)
-    async def uptime(self, ctx):
+    async def utime(self, ctx):
         """Shows how long the bot has been online."""
         seconds = time.time() - starttime
         m, s = divmod(seconds, 60)
@@ -320,7 +301,7 @@ class Info:
                 h) + " %d Minutes," % (m) + " and %d Seconds!" % (s))
 
     @commands.command(pass_context=True)
-    async def ping(self,ctx):
+    async def time(self,ctx):
         """Pong."""
         channel = ctx.message.channel
         colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
@@ -330,12 +311,6 @@ class Info:
         t2 = time.perf_counter()
         em = discord.Embed(description="**Pong: {}ms! :ping_pong:**".format(round((t2-t1)*100)), colour=discord.Colour(value=colour))
         await self.bot.say(embed=em)
-
-    @commands.command()
-    async def invite(self):
-        """Sends invite link for bot."""
-        await self.bot.say("Check your pms fam.")
-        await self.bot.whisper("**Here is my invite link.**\nhttps://discordapp.com/oauth2/authorize?client_id=226132382846156800&scope=bot&permissions=-1")
 
     @commands.command(pass_context=True)
     async def roles(self, ctx):
