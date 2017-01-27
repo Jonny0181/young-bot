@@ -301,7 +301,7 @@ class Info:
                 h) + " %d Minutes," % (m) + " and %d Seconds!" % (s))
 
     @commands.command(pass_context=True)
-    async def time(self,ctx):
+    async def pong(self,ctx):
         """Pong."""
         channel = ctx.message.channel
         colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
